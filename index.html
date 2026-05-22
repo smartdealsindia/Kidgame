@@ -195,7 +195,7 @@ document.querySelectorAll(".draggable");
 const dropzones =
 document.querySelectorAll(".dropzone");
 
-/* SPEAK */
+/* VOICE */
 
 function speak(text){
 
@@ -211,7 +211,7 @@ function speak(text){
 
 }
 
-/* DRAG START */
+/* DESKTOP DRAG */
 
 draggables.forEach(item=>{
 
@@ -226,7 +226,7 @@ draggables.forEach(item=>{
 
 });
 
-/* DROP AREA */
+/* DROP */
 
 dropzones.forEach(zone=>{
 
@@ -243,52 +243,99 @@ dropzones.forEach(zone=>{
         const draggedId =
         e.dataTransfer.getData("text");
 
-        const match =
-        zone.getAttribute("data-match");
+        checkMatch(draggedId, zone);
 
-        if(draggedId === match){
+    });
 
-            zone.classList.add("correct");
+});
 
-            score++;
+/* MOBILE TOUCH SUPPORT */
 
-            document.getElementById("score")
-            .innerText = score;
+let selectedItem = null;
 
-            speak("Correct");
+draggables.forEach(item=>{
 
-            document.getElementById("message")
-            .innerHTML = "🎉 Great Job!";
+    item.addEventListener("touchstart", ()=>{
 
-            const dragged =
-            document.getElementById(draggedId);
+        selectedItem = item.id;
 
-            dragged.style.opacity = "0.3";
-            dragged.draggable = false;
+        item.style.transform = "scale(1.2)";
 
-            if(score === 3){
+    });
 
-                speak("Excellent Work");
+    item.addEventListener("touchend", ()=>{
 
-                document.getElementById("message")
-                .innerHTML =
-                "🏆 You Completed The Game!";
+        item.style.transform = "scale(1)";
 
-            }
+    });
 
-        }else{
+});
 
-            speak("Wrong Match");
+dropzones.forEach(zone=>{
 
-            document.getElementById("message")
-            .innerHTML =
-            "❌ Try Again";
+    zone.addEventListener("touchstart", ()=>{
+
+        if(selectedItem){
+
+            checkMatch(selectedItem, zone);
 
         }
 
     });
 
 });
+
+/* CHECK MATCH */
+
+function checkMatch(draggedId, zone){
+
+    const match =
+    zone.getAttribute("data-match");
+
+    if(draggedId === match){
+
+        zone.classList.add("correct");
+
+        score++;
+
+        document.getElementById("score")
+        .innerText = score;
+
+        speak("Correct");
+
+        document.getElementById("message")
+        .innerHTML = "🎉 Great Job!";
+
+        const dragged =
+        document.getElementById(draggedId);
+
+        dragged.style.opacity = "0.3";
+
+        dragged.draggable = false;
+
+        dragged.style.pointerEvents = "none";
+
+        if(score === 3){
+
+            speak("Excellent Work");
+
+            document.getElementById("message")
+            .innerHTML =
+            "🏆 You Completed The Game!";
+
+        }
+
+    }else{
+
+        speak("Wrong Match");
+
+        document.getElementById("message")
+        .innerHTML =
+        "❌ Try Again";
+
+    }
+
+}
 
 </script>
 
