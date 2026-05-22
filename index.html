@@ -3,99 +3,229 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kids Matching Game</title>
+<title>Kids Learning World</title>
 
 <style>
 
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
 body{
-    font-family:Arial;
-    background:linear-gradient(to bottom,#dbeafe,#fef9c3);
-    padding:20px;
+font-family:Arial;
+background:linear-gradient(to bottom,#dbeafe,#fef9c3);
+overflow-x:hidden;
 }
 
-h1{
-    text-align:center;
-    margin-bottom:20px;
-    color:#4f46e5;
+/* HEADER */
+
+header{
+background:#4f46e5;
+color:white;
+padding:18px;
+text-align:center;
+font-size:30px;
+font-weight:bold;
 }
 
-.game{
-    max-width:900px;
-    margin:auto;
-    background:white;
-    border-radius:25px;
-    padding:20px;
-    box-shadow:0 8px 20px rgba(0,0,0,0.15);
+/* MENU */
+
+.menu{
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+gap:10px;
+padding:15px;
 }
 
-.top-items,
-.bottom-items{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:20px;
-    margin-top:20px;
+.menu button{
+padding:12px 18px;
+border:none;
+border-radius:14px;
+background:#6366f1;
+color:white;
+font-size:18px;
+cursor:pointer;
 }
+
+.menu button.active{
+background:#f59e0b;
+}
+
+/* SECTION */
+
+.section{
+display:none;
+padding:20px;
+}
+
+.section.active{
+display:block;
+}
+
+/* GRID */
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+margin-top:20px;
+}
+
+/* CARD */
 
 .card{
-    background:#fff;
-    border:3px solid #ddd;
-    border-radius:20px;
-    padding:15px;
-    text-align:center;
-    min-height:180px;
-    position:relative;
+background:white;
+padding:20px;
+border-radius:25px;
+text-align:center;
+box-shadow:0 8px 20px rgba(0,0,0,0.1);
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
 }
 
 .card img{
-    width:100px;
-    height:100px;
-    object-fit:contain;
+width:120px;
+height:120px;
+object-fit:contain;
 }
 
 .card h2{
-    margin-top:10px;
-    font-size:22px;
+margin-top:10px;
+font-size:24px;
+}
+
+/* COLORS */
+
+.palette{
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+gap:10px;
+margin-top:20px;
+}
+
+.color{
+width:45px;
+height:45px;
+border-radius:50%;
+cursor:pointer;
+border:4px solid white;
+}
+
+/* SVG */
+
+svg{
+width:100%;
+height:220px;
+}
+
+.paint{
+fill:white;
+stroke:black;
+stroke-width:4;
+cursor:pointer;
+}
+
+/* NUMBERS */
+
+.numbers{
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:12px;
+margin-top:20px;
+}
+
+.num-btn{
+padding:16px;
+font-size:26px;
+border:none;
+border-radius:15px;
+background:#f59e0b;
+color:white;
+cursor:pointer;
+}
+
+/* ABC */
+
+.alphabet{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:12px;
+margin-top:20px;
+}
+
+.alpha-btn{
+padding:18px;
+font-size:28px;
+border:none;
+border-radius:15px;
+background:#ec4899;
+color:white;
+cursor:pointer;
+}
+
+/* MATCH */
+
+.match-grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:20px;
+margin-top:20px;
 }
 
 .draggable{
-    cursor:grab;
+cursor:pointer;
 }
 
 .dropzone{
-    border:3px dashed #bbb;
+border:3px dashed #aaa;
+border-radius:20px;
+padding:20px;
+background:white;
 }
 
 .correct{
-    background:#dcfce7 !important;
-    border-color:#22c55e !important;
+background:#dcfce7;
+border-color:#22c55e;
 }
+
+/* SCORE */
 
 .score{
-    text-align:center;
-    font-size:28px;
-    margin-top:20px;
-    color:#f59e0b;
+text-align:center;
+font-size:28px;
+margin-top:15px;
+color:#f59e0b;
 }
 
-.message{
-    text-align:center;
-    font-size:28px;
-    margin-top:15px;
-    color:#22c55e;
-    font-weight:bold;
+/* FOOTER */
+
+footer{
+text-align:center;
+padding:20px;
+color:#666;
 }
+
+/* MOBILE */
 
 @media(max-width:700px){
 
-.top-items,
-.bottom-items{
-    grid-template-columns:1fr;
+.numbers{
+grid-template-columns:repeat(4,1fr);
+}
+
+.alphabet{
+grid-template-columns:repeat(3,1fr);
+}
+
+.match-grid{
+grid-template-columns:1fr;
 }
 
 }
@@ -105,239 +235,302 @@ h1{
 
 <body>
 
-<h1>🎯 Kids Matching Game</h1>
+<header>
+🌈 Kids Learning World
+</header>
 
-<div class="game">
+<!-- MENU -->
+
+<div class="menu">
+
+<button class="active" onclick="showSection('coloring',event)">
+🎨 Coloring
+</button>
+
+<button onclick="showSection('numbers',event)">
+🔢 Numbers
+</button>
+
+<button onclick="showSection('abc',event)">
+🔤 ABC
+</button>
+
+<button onclick="showSection('match',event)">
+🎯 Match
+</button>
+
+</div>
+
+<!-- COLORING -->
+
+<div id="coloring" class="section active">
+
+<div class="palette">
+
+<div class="color" style="background:red" onclick="setColor('red')"></div>
+<div class="color" style="background:blue" onclick="setColor('blue')"></div>
+<div class="color" style="background:green" onclick="setColor('green')"></div>
+<div class="color" style="background:yellow" onclick="setColor('yellow')"></div>
+<div class="color" style="background:pink" onclick="setColor('pink')"></div>
+<div class="color" style="background:orange" onclick="setColor('orange')"></div>
+
+</div>
+
+<div class="grid">
+
+<div class="card">
+
+<svg viewBox="0 0 200 200">
+
+<circle class="paint" cx="100" cy="100" r="60"/>
+<polygon class="paint" points="55,60 75,20 95,60"/>
+<polygon class="paint" points="105,60 125,20 145,60"/>
+
+</svg>
+
+<h2>🐱 Cat</h2>
+
+</div>
+
+<div class="card">
+
+<svg viewBox="0 0 200 200">
+
+<ellipse class="paint" cx="90" cy="100" rx="60" ry="40"/>
+<polygon class="paint" points="140,100 180,70 180,130"/>
+
+</svg>
+
+<h2>🐟 Fish</h2>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- NUMBERS -->
+
+<div id="numbers" class="section">
+
+<div class="card">
+
+<h2>🔢 Learn Numbers</h2>
+
+<div class="numbers">
+
+<button class="num-btn" onclick="speakNumber(1)">1</button>
+<button class="num-btn" onclick="speakNumber(2)">2</button>
+<button class="num-btn" onclick="speakNumber(3)">3</button>
+<button class="num-btn" onclick="speakNumber(4)">4</button>
+<button class="num-btn" onclick="speakNumber(5)">5</button>
+<button class="num-btn" onclick="speakNumber(6)">6</button>
+<button class="num-btn" onclick="speakNumber(7)">7</button>
+<button class="num-btn" onclick="speakNumber(8)">8</button>
+<button class="num-btn" onclick="speakNumber(9)">9</button>
+<button class="num-btn" onclick="speakNumber(10)">10</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ABC -->
+
+<div id="abc" class="section">
+
+<div class="card">
+
+<h2>🔤 Learn ABC</h2>
+
+<div class="alphabet">
+
+<button class="alpha-btn" onclick="speakLetter('A')">A</button>
+<button class="alpha-btn" onclick="speakLetter('B')">B</button>
+<button class="alpha-btn" onclick="speakLetter('C')">C</button>
+<button class="alpha-btn" onclick="speakLetter('D')">D</button>
+
+<button class="alpha-btn" onclick="speakLetter('E')">E</button>
+<button class="alpha-btn" onclick="speakLetter('F')">F</button>
+<button class="alpha-btn" onclick="speakLetter('G')">G</button>
+<button class="alpha-btn" onclick="speakLetter('H')">H</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- MATCH -->
+
+<div id="match" class="section">
 
 <div class="score">
 ⭐ Score : <span id="score">0</span>
 </div>
 
-<div class="message" id="message">
-Drag Picture To Match 👇
-</div>
-
-<!-- TOP COLORED -->
-
-<div class="top-items">
+<div class="match-grid">
 
 <div class="card">
-<img 
-src="https://cdn-icons-png.flaticon.com/512/616/616430.png"
+
+<img src="https://cdn-icons-png.flaticon.com/512/616/616430.png"
 class="draggable"
-draggable="true"
 id="cat"
->
+width="120">
+
 <h2>🐱 Cat</h2>
-</div>
-
-<div class="card">
-<img 
-src="https://cdn-icons-png.flaticon.com/512/3069/3069172.png"
-class="draggable"
-draggable="true"
-id="bee"
->
-<h2>🐝 Bee</h2>
-</div>
-
-<div class="card">
-<img 
-src="https://cdn-icons-png.flaticon.com/512/1998/1998627.png"
-class="draggable"
-draggable="true"
-id="fish"
->
-<h2>🐟 Fish</h2>
-</div>
 
 </div>
 
-<!-- BOTTOM MATCH -->
+<div class="dropzone" data-match="cat">
 
-<div class="bottom-items">
+<img src="https://cdn-icons-png.flaticon.com/512/616/616430.png"
+width="120"
+style="filter:grayscale(100%) opacity(0.4);">
 
-<div class="card dropzone" data-match="cat">
-<img 
-src="https://cdn-icons-png.flaticon.com/512/616/616430.png"
-style="filter:grayscale(100%) opacity(0.4);"
->
 <h2>Match Cat</h2>
-</div>
 
-<div class="card dropzone" data-match="bee">
-<img 
-src="https://cdn-icons-png.flaticon.com/512/3069/3069172.png"
-style="filter:grayscale(100%) opacity(0.4);"
->
-<h2>Match Bee</h2>
-</div>
-
-<div class="card dropzone" data-match="fish">
-<img 
-src="https://cdn-icons-png.flaticon.com/512/1998/1998627.png"
-style="filter:grayscale(100%) opacity(0.4);"
->
-<h2>Match Fish</h2>
 </div>
 
 </div>
 
 </div>
+
+<footer>
+Made For Kids Learning 🎈
+</footer>
 
 <script>
-
-let score = 0;
-
-const draggables =
-document.querySelectorAll(".draggable");
-
-const dropzones =
-document.querySelectorAll(".dropzone");
 
 /* VOICE */
 
 function speak(text){
 
-    window.speechSynthesis.cancel();
+window.speechSynthesis.cancel();
 
-    let speech =
-    new SpeechSynthesisUtterance(text);
+let speech =
+new SpeechSynthesisUtterance(text);
 
-    speech.lang = "en-US";
-    speech.rate = 0.9;
+speech.lang = "en-US";
+speech.rate = 0.9;
 
-    window.speechSynthesis.speak(speech);
+window.speechSynthesis.speak(speech);
 
 }
 
-/* DESKTOP DRAG */
+/* MENU */
 
-draggables.forEach(item=>{
+function showSection(id,event){
 
-    item.addEventListener("dragstart", e=>{
+document.querySelectorAll(".section")
+.forEach(sec=>{
 
-        e.dataTransfer.setData(
-            "text",
-            item.id
-        );
-
-    });
+sec.classList.remove("active");
 
 });
 
-/* DROP */
+document.getElementById(id)
+.classList.add("active");
 
-dropzones.forEach(zone=>{
+document.querySelectorAll(".menu button")
+.forEach(btn=>{
 
-    zone.addEventListener("dragover", e=>{
-
-        e.preventDefault();
-
-    });
-
-    zone.addEventListener("drop", e=>{
-
-        e.preventDefault();
-
-        const draggedId =
-        e.dataTransfer.getData("text");
-
-        checkMatch(draggedId, zone);
-
-    });
+btn.classList.remove("active");
 
 });
 
-/* MOBILE TOUCH SUPPORT */
+event.target.classList.add("active");
+
+}
+
+/* COLORING */
+
+let selectedColor = "red";
+
+function setColor(color){
+
+selectedColor = color;
+
+speak(color);
+
+}
+
+const paints =
+document.querySelectorAll(".paint");
+
+paints.forEach(shape=>{
+
+shape.addEventListener("click",()=>{
+
+shape.style.fill = selectedColor;
+
+speak(selectedColor);
+
+});
+
+});
+
+/* NUMBERS */
+
+function speakNumber(num){
+
+speak(num.toString());
+
+}
+
+/* ABC */
+
+function speakLetter(letter){
+
+speak(letter);
+
+}
+
+/* MATCH GAME */
+
+let score = 0;
+
+const draggable =
+document.querySelector(".draggable");
+
+const dropzone =
+document.querySelector(".dropzone");
 
 let selectedItem = null;
 
-draggables.forEach(item=>{
+draggable.addEventListener("click",()=>{
 
-    item.addEventListener("touchstart", ()=>{
+selectedItem = draggable.id;
 
-        selectedItem = item.id;
-
-        item.style.transform = "scale(1.2)";
-
-    });
-
-    item.addEventListener("touchend", ()=>{
-
-        item.style.transform = "scale(1)";
-
-    });
+speak("Cat");
 
 });
 
-dropzones.forEach(zone=>{
+dropzone.addEventListener("click",()=>{
 
-    zone.addEventListener("touchstart", ()=>{
+if(selectedItem === "cat"){
 
-        if(selectedItem){
+dropzone.classList.add("correct");
 
-            checkMatch(selectedItem, zone);
+score++;
 
-        }
+document.getElementById("score")
+.innerText = score;
 
-    });
-
-});
-
-/* CHECK MATCH */
-
-function checkMatch(draggedId, zone){
-
-    const match =
-    zone.getAttribute("data-match");
-
-    if(draggedId === match){
-
-        zone.classList.add("correct");
-
-        score++;
-
-        document.getElementById("score")
-        .innerText = score;
-
-        speak("Correct");
-
-        document.getElementById("message")
-        .innerHTML = "🎉 Great Job!";
-
-        const dragged =
-        document.getElementById(draggedId);
-
-        dragged.style.opacity = "0.3";
-
-        dragged.draggable = false;
-
-        dragged.style.pointerEvents = "none";
-
-        if(score === 3){
-
-            speak("Excellent Work");
-
-            document.getElementById("message")
-            .innerHTML =
-            "🏆 You Completed The Game!";
-
-        }
-
-    }else{
-
-        speak("Wrong Match");
-
-        document.getElementById("message")
-        .innerHTML =
-        "❌ Try Again";
-
-    }
+speak("Correct");
 
 }
+
+else{
+
+speak("Try Again");
+
+}
+
+});
 
 </script>
 
 </body>
-  </html>
+</html>
